@@ -17,6 +17,7 @@ eggs/
 venv/
 .env/
 env/
+.env
 # Add other common virtual environment names if used (e.g., .venv, virtualenv)
 
 # Editor/IDE specific files
