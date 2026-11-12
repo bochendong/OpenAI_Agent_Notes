@@ -1,63 +1,59 @@
 # OpenAI Agent Notes
 
-这个仓库包含了使用 OpenAI Agents SDK 的学习笔记和示例代码。
+Study notes and example code for the OpenAI Agents SDK.
 
-## 📁 项目结构
+## Project structure
 
-```
+```text
 .
-├── notebooks/              # Jupyter Notebook 示例文件
-│   ├── basicCommuation.ipynb          # 基础通信示例
-│   ├── functionTool.ipynb             # 函数工具示例
-│   ├── handOff.ipynb                  # 代理交接示例
-│   ├── openai-agent-use-examples.ipynb # OpenAI Agent 使用示例集合
-│   └── sourceCommunication.ipynb     # 源通信示例
-├── requirements.txt       # Python 依赖包列表
-├── check_env.py          # 环境配置检测脚本
-├── venv/                  # Python 虚拟环境
-└── README.md              # 项目说明文档
+├── notebooks/
+│   ├── basicCommuation.ipynb      # Basic agent interactions
+│   ├── functionTool.ipynb         # Function tools
+│   ├── handOff.ipynb              # Agent handoffs
+│   ├── RunContextWrapper.ipynb    # Shared run context
+│   └── sourceCommunication.ipynb # Image input and follow-up messages
+├── Examples/NoteBookCreator/    # Agents that generate notebook sections
+├── requirements.txt             # Python dependencies
+├── check_env.py                 # Environment check script
+└── README.md
 ```
 
-## 🚀 快速开始
+## Quick start
 
-### 1. 环境要求
+### 1. Prerequisites
 
 - Python 3.9+
 - pip
 
-### 2. 创建虚拟环境
+### 2. Create a virtual environment
 
-如果还没有虚拟环境，需要先创建一个：
+Create and activate a virtual environment if you do not already have one.
 
 ```bash
-# 创建虚拟环境
 python3 -m venv venv
 
-# 激活虚拟环境
-# macOS/Linux:
+# macOS/Linux
 source venv/bin/activate
 
-# Windows:
+# Windows
 # venv\Scripts\activate
 ```
 
-激活成功后，命令行提示符前会显示 `(venv)`。
+When the environment is active, your shell prompt displays `(venv)`.
 
-### 3. 安装依赖
+### 3. Install dependencies
+
+With the virtual environment active, run:
 
 ```bash
-# 确保虚拟环境已激活
-# 安装依赖包
 pip install -r requirements.txt
 ```
 
-### 4. 配置 API Key
+### 4. Configure your API key
 
-#### 创建 .env 文件
+Create a file named `.env` in the project root. Include the leading dot in the filename.
 
-在项目根目录下创建 `.env` 文件（注意文件名以点开头）：
-
-**方法一：使用命令行创建**
+**From the command line**
 
 ```bash
 # macOS/Linux
@@ -67,111 +63,88 @@ echo "OPENAI_API_KEY=your_api_key_here" > .env
 echo "OPENAI_API_KEY=your_api_key_here" | Out-File -Encoding utf8 .env
 ```
 
-**方法二：手动创建**
+**In a text editor**
 
-1. 在项目根目录创建一个新文件，命名为 `.env`（注意文件名以点开头）
-2. 在文件中添加以下内容：
+Create `.env` and add the following line:
 
-```bash
+```dotenv
 OPENAI_API_KEY=your_api_key_here
 ```
 
-**重要提示：**
-- 将 `your_api_key_here` 替换为你的实际 OpenAI API Key
-- `.env` 文件通常会被 `.gitignore` 忽略，不会提交到版本控制系统
-- 不要将 API Key 分享给他人或提交到公共仓库
+Sign in to the [OpenAI Platform](https://platform.openai.com/), open the API Keys page, and create a key. Replace `your_api_key_here` with that key. Keep the key private and out of version control.
 
-#### 获取 OpenAI API Key
+### 5. Check your environment
 
-1. 访问 [OpenAI Platform](https://platform.openai.com/)
-2. 登录或注册账号
-3. 进入 API Keys 页面
-4. 创建新的 API Key
-5. 复制 Key 并粘贴到 `.env` 文件中
-
-### 5. 检查环境配置
-
-运行环境检测脚本，检查所有配置是否正确：
+With the virtual environment active, run:
 
 ```bash
-# 确保虚拟环境已激活
 python check_env.py
 ```
 
-脚本会检查：
-- Python 版本是否符合要求
-- 虚拟环境是否激活
-- 依赖包是否已安装
-- .env 文件是否存在
-- API Key 是否已配置
+The script checks the Python version, virtual environment, installed dependencies, `.env` file, and API key configuration.
 
-## 📚 Notebook 说明
+## Notebook examples
 
-### `basicCommuation.ipynb`
-基础通信示例，包括：
-- 基本 Agent 使用
-- 结构化输出（使用 Pydantic 模型）
-- 会话管理（SQLiteSession）
+### `notebooks/basicCommuation.ipynb`
 
-### `functionTool.ipynb`
-函数工具示例，展示：
-- 自定义函数工具（使用 `@function_tool` 装饰器）
-- 内置工具（WebSearchTool）
-- 函数调用和链式调用
+Basic agent runs, structured output with Pydantic models, and session management with `SQLiteSession`.
 
-### `handOff.ipynb`
-代理交接示例，演示：
-- 多个 Agent 的创建
-- Agent 之间的交接（handoff）
-- 路由 Agent 的使用
+### `notebooks/functionTool.ipynb`
 
-### `openai-agent-use-examples.ipynb`
-OpenAI Agent SDK 的综合使用示例集合。
+Custom tools defined with `@function_tool`, the built-in `WebSearchTool`, and chained tool calls.
 
-### `sourceCommunication.ipynb`
-源通信相关示例。
+### `notebooks/handOff.ipynb`
 
-## 📦 主要依赖
+Multiple agents, handoffs between agents, and a routing agent.
 
-- `openai` - OpenAI Python SDK
-- `openai-agents` - OpenAI Agents SDK
-- `pydantic` - 数据验证库
-- `python-dotenv` - 环境变量管理
-- `jupyter` - Jupyter Notebook 环境
-- `httpx` - HTTP 客户端
-- `fastapi` - Web 框架（可选）
+### `notebooks/RunContextWrapper.ipynb`
 
-完整依赖列表请查看 `requirements.txt`。
+Sharing context between tools and agents with `RunContextWrapper`.
 
-## 🔧 常见问题
+### `notebooks/sourceCommunication.ipynb`
 
-### Python 3.9 类型注解问题
+Image input and follow-up questions with a shared session.
 
-如果遇到 `TypeError: Unable to evaluate type annotation 'float | None'` 错误，请安装 `eval_type_backport`：
+## Main dependencies
+
+- `openai` — OpenAI Python SDK
+- `openai-agents` — OpenAI Agents SDK
+- `pydantic` — Data validation
+- `python-dotenv` — Environment variable management
+- `jupyter` — Jupyter Notebook environment
+- `httpx` — HTTP client
+- `fastapi` — Optional web framework
+
+See `requirements.txt` for the full list.
+
+## Troubleshooting
+
+### Type annotations on Python 3.9
+
+If you encounter `TypeError: Unable to evaluate type annotation 'float | None'`, install `eval_type_backport`:
 
 ```bash
 pip install eval_type_backport
 ```
 
-### 异步函数使用
+### Asynchronous calls
 
-注意 `Runner.run()` 是异步函数，需要使用 `await`：
+`Runner.run()` is asynchronous. Call it with `await`:
 
 ```python
 result = await Runner.run(agent, "Hello!")
 ```
 
-## 📝 注意事项
+## Notes
 
-- 确保已正确配置 OpenAI API Key
-- 某些功能可能需要付费的 OpenAI API 访问权限
-- 建议在虚拟环境中运行代码
+- Configure your OpenAI API key before running the examples.
+- Some features may require paid OpenAI API access.
+- Run the examples in a virtual environment.
 
-## 📄 许可证
+## License
 
-本项目仅用于学习和研究目的。
+This project is for learning and research purposes.
 
-## 🤝 贡献
+## Contributing
 
-欢迎提交 Issue 和 Pull Request！
-
+Issues and pull requests are welcome.

@@ -1,4 +1,4 @@
-"""Notebook content structure models - 笔记本内容结构模型"""
+"""Notebook content structure models"""
 
 from __future__ import annotations
 
@@ -7,71 +7,71 @@ from pydantic import BaseModel, ConfigDict
 
 
 class BaseExample(BaseModel):
-    """题目基类，包含所有题目类型的共同字段"""
+    """Fields shared by all question types."""
     model_config = ConfigDict(strict=False)
     
-    # ID字段（用于精确定位，支持向后兼容）
-    id: Optional[str] = None  # 唯一ID，如 "example_abc123"
-    question_id: Optional[str] = None  # question字段的ID
-    question: str  # 题目/例子内容（必需）
+    # IDs identify individual fields and remain optional for backward compatibility.
+    id: Optional[str] = None  # Unique ID, for example "example_abc123"
+    question_id: Optional[str] = None  # ID for the question field
+    question: str  # Question or example text (required)
 
 
 class MultipleChoiceQuestion(BaseExample):
-    """选择题"""
+    """Multiple-choice question"""
     model_config = ConfigDict(strict=False)
     
-    answer_id: Optional[str] = None  # answer字段的ID
-    explanation_id: Optional[str] = None  # explanation字段的ID
+    answer_id: Optional[str] = None  # ID for the answer field
+    explanation_id: Optional[str] = None  # ID for the explanation field
     
-    options: List[str]  # 选项列表（必需，通常4个选项）
-    correct_answer: str  # 正确答案（必需，如 "A", "B", "C", "D"）
-    explanation: Optional[str] = None  # 解释（可选）
+    options: List[str]  # List of options (required, typically four)
+    correct_answer: str  # Correct answer (required, e.g. "A", "B", "C", or "D")
+    explanation: Optional[str] = None  # Explanation (optional)
 
 
 class FillBlankQuestion(BaseExample):
-    """填空题"""
+    """Fill-in-the-blank question"""
     model_config = ConfigDict(strict=False)
     
-    answer_id: Optional[str] = None  # answer字段的ID
-    explanation_id: Optional[str] = None  # explanation字段的ID
+    answer_id: Optional[str] = None  # ID for the answer field
+    explanation_id: Optional[str] = None  # ID for the explanation field
     
-    blanks: Dict[str, str]  # 填空题答案字典（必需）
-    # 格式：{"[空1]": "答案1", "[空2]": "答案2", ...} 或 {"blank1": "答案1", "blank2": "答案2", ...}
-    # 键必须与 question 中的占位符完全匹配
-    explanation: Optional[str] = None  # 解释（可选）
+    blanks: Dict[str, str]  # Mapping from placeholders to answers (required)
+    # Example: {"[blank1]": "answer 1", "[blank2]": "answer 2"}
+    # Keys must match the placeholders in question exactly.
+    explanation: Optional[str] = None  # Explanation (optional)
 
 
 class ProofQuestion(BaseExample):
-    """证明题"""
+    """Proof question"""
     model_config = ConfigDict(strict=False)
     
-    proof_id: Optional[str] = None  # proof字段的ID
-    proof: str  # 证明步骤（必需）
+    proof_id: Optional[str] = None  # ID for the proof field
+    proof: str  # Proof steps (required)
 
 
 class ShortAnswerQuestion(BaseExample):
-    """简答题"""
+    """Short-answer question"""
     model_config = ConfigDict(strict=False)
     
-    answer_id: Optional[str] = None  # answer字段的ID
-    explanation_id: Optional[str] = None  # explanation字段的ID
+    answer_id: Optional[str] = None  # ID for the answer field
+    explanation_id: Optional[str] = None  # ID for the explanation field
     
-    answer: str  # 答案内容（必需）
-    explanation: Optional[str] = None  # 解释（可选）
+    answer: str  # Answer text (required)
+    explanation: Optional[str] = None  # Explanation (optional)
 
 
 class CodeQuestion(BaseExample):
-    """代码题"""
+    """Programming question"""
     model_config = ConfigDict(strict=False)
     
-    answer_id: Optional[str] = None  # answer字段的ID
-    explanation_id: Optional[str] = None  # explanation字段的ID
+    answer_id: Optional[str] = None  # ID for the answer field
+    explanation_id: Optional[str] = None  # ID for the explanation field
     
-    code_answer: str  # 代码答案（必需）
-    explanation: Optional[str] = None  # 解释（可选）
+    code_answer: str  # Code solution (required)
+    explanation: Optional[str] = None  # Explanation (optional)
 
 
-# 类型别名：Example 可以是任意一种题目类型
+# An Example can be any of these question types.
 Example = Union[
     MultipleChoiceQuestion,
     FillBlankQuestion,
@@ -82,71 +82,71 @@ Example = Union[
 
 
 class ExerciseList(BaseModel):
-    """练习题列表"""
+    """List of exercises"""
     model_config = ConfigDict(strict=False)
     
-    exercises: List[Example]  # 练习题列表（必需）
+    exercises: List[Example]  # List of exercises (required)
 
 
 class Definition(BaseModel):
-    """定义"""
+    """Definition"""
     model_config = ConfigDict(strict=False)
     
-    definition_id: Optional[str] = None  # definition字段的ID
-    definition: str  # 定义内容（必需）
+    definition_id: Optional[str] = None  # ID for the definition field
+    definition: str  # Definition text (required)
 
 
 class Theorem(BaseModel):
-    """定理及其证明"""
+    """A theorem and its proof."""
     model_config = ConfigDict(strict=False)
     
-    # ID字段（用于精确定位，支持向后兼容）
-    id: Optional[str] = None  # 唯一ID，如 "theorem_def456"
-    theorem_id: Optional[str] = None  # theorem字段的ID
-    proof_id: Optional[str] = None  # proof字段的ID
+    # IDs identify individual fields and remain optional for backward compatibility.
+    id: Optional[str] = None  # Unique ID, for example "theorem_def456"
+    theorem_id: Optional[str] = None  # ID for the theorem field
+    proof_id: Optional[str] = None  # ID for the proof field
     
-    theorem: str  # 定理内容（必需）
-    proof: Optional[str] = None  # 证明内容（可选）
+    theorem: str  # Theorem statement (required)
+    proof: Optional[str] = None  # Proof text (optional)
 
 
 class Summary(BaseModel):
-    """章节总结"""
+    """Section summary"""
     model_config = ConfigDict(strict=False)
     
-    summary_id: Optional[str] = None  # summary字段的ID
-    summary: str  # 总结内容（必需）
+    summary_id: Optional[str] = None  # ID for the summary field
+    summary: str  # Summary text (required)
 
 
 class ConceptBlock(BaseModel):
-    """概念块：一个定义及其相关的例子、笔记、定理等"""
+    """A definition with related examples, notes, and theorems."""
     model_config = ConfigDict(strict=False)
     
-    # ID字段（用于精确定位，支持向后兼容）
-    id: Optional[str] = None  # 唯一ID，如 "concept_block_ghi789"
-    definition_id: Optional[str] = None  # definition字段的ID
+    # IDs identify individual fields and remain optional for backward compatibility.
+    id: Optional[str] = None  # Unique ID, for example "concept_block_ghi789"
+    definition_id: Optional[str] = None  # ID for the definition field
     
-    definition: str  # 定义（必需）
-    examples: List[Example] = []  # 相关例子列表
-    notes: List[str] = []  # 相关笔记/注意点（可选）
-    theorems: List[Theorem] = []  # 相关定理列表
+    definition: str  # Definition (required)
+    examples: List[Example] = []  # Related examples
+    notes: List[str] = []  # Related notes and points to watch for (optional)
+    theorems: List[Theorem] = []  # Related theorems
 
 
 class Section(BaseModel):
-    """章节结构"""
+    """Section structure"""
     model_config = ConfigDict(strict=False)
     
-    # ID字段（用于精确定位，支持向后兼容）
-    id: Optional[str] = None  # 唯一ID，如 "section_jkl012"
-    section_title_id: Optional[str] = None  # section_title字段的ID
-    introduction_id: Optional[str] = None  # introduction字段的ID
-    definition_id: Optional[str] = None  # definition字段的ID
-    summary_id: Optional[str] = None  # summary字段的ID
+    # IDs identify individual fields and remain optional for backward compatibility.
+    id: Optional[str] = None  # Unique ID, for example "section_jkl012"
+    section_title_id: Optional[str] = None  # ID for the section_title field
+    introduction_id: Optional[str] = None  # ID for the introduction field
+    definition_id: Optional[str] = None  # ID for the definition field
+    summary_id: Optional[str] = None  # ID for the summary field
     
     section_title: str
-    introduction: str  # 介绍
-    definition: str  # 定义（必需）
-    theorems: List[Theorem] = []  # 定理列表（0到多个）
-    examples: List[Example] = []  # 例子/练习题列表（3-5个）
-    summary: str  # 总结
+    introduction: str  # Introduction
+    definition: str  # Definition (required)
+    theorems: List[Theorem] = []  # List of zero or more theorems
+    examples: List[Example] = []  # List of three to five examples or exercises
+    summary: str  # Summary
 
 

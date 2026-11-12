@@ -5,16 +5,16 @@ from model import Definition
 
 definition_agent = Agent(
     name="definition_generator",
-    instructions="""你是一个专业的概念定义生成器。你的任务是生成高质量的概念定义。
+    instructions="""You write high-quality definitions of concepts in English.
 
-要求：
-1. 定义应该准确、清晰、完整，能够准确描述概念的本质特征
-2. 定义应该使用标准的术语和符号，符合学科规范
-3. 定义应该简洁明了，避免冗余
-4. 确保定义与给定的知识点或上下文相关
+Requirements:
+1. Write accurate, clear, and complete definitions that capture the essential features of the concept.
+2. Use standard terminology and notation for the discipline.
+3. Keep definitions concise and avoid repetition.
+4. Make the definition relevant to the given topic or context.
 
-输出格式必须符合 Definition 模型的要求：
-- definition: 定义内容（必需，字符串格式）""",
+Follow the Definition model:
+- definition: the definition text (required string)""",
     output_type = AgentOutputSchema(Definition, strict_json_schema=False),
 )
 
